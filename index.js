@@ -9,17 +9,26 @@ const Database = require('better-sqlite3');
 
 /**
  * Connect to an SQLite3 database.
- * It requires the SQLite database file to be specified through the environment
- * variable SQLITE3_FILE in the file ".env". This can be a path or the string
- * ":memory:" to specify an in-memory database.
+ * The database file can be specified either by the first argument or by the property
+ * SQLITE3_FILE in the file ".env". If none is specified an in-memory database is assumed
+ * (reserved name ":memory:").
  * Pragma journal_mode is set to 'WAL' by default as recommended by the better-sqlite3 module.
+ * The database is automatically closed on process exit.
+ * @param {string} filename Optional database file path.
  * @param {Object} options SQLite3 database options. Option fileMustExist is set by default.
- * @returns Connection object. 
+ * @returns BetterSqlite3.Database. 
  */
-function connectDb(options) {
-    const file = process.env.SQLITE3_FILE;
-    options = Object.assign({}, { fileMustExist: true }, options);
-    const db = new Database(file, options);
+function connectDb(filename, options = { fileMustExist: true }) {
+    // Handle optional arguments
+    if (arguments.length === 1) {
+        if (typeof arguments[0] === 'object') {
+            options = filename;
+            filename = undefined;
+        }
+    }
+    filename ||= process.env.SQLITE3_FILE ||= ":memory:";
+    // Create BetterSqlite3.Database
+    const db = new Database(filename, options);
     db.pragma('journal_mode = WAL');
     process.on('exit', () => db.close());
     return db;
@@ -27,9 +36,9 @@ function connectDb(options) {
 
 /**
  * Disconnect silently from an SQLite3 database.
- * Calling this function is normally not necessary, since existing connections
- * are automatically closed upon process exit.
- * @param {Object} Connection object to SQLite3 as returned by connectDb().
+ * Calling this function is normally not necessary, since connections obtained through
+ * connectDb() are automatically closed on process exit.
+ * @param {BetterSqlite3.Database} Connection object to the SQLite3 database.
  */
 function disconnectDb(db) {
     try {
