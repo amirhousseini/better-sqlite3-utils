@@ -1,0 +1,19 @@
+{
+  "name": "ah-better-sqlite3-utils",
+  "version": "1.0.0",
+  "description": "Collection of classes and functions utilities for better-sqlite3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amirhousseini/better-sqlite3-utils.git"
+  },
+  "author": "Amir Housseini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amirhousseini/better-sqlite3-utils/issues"
+  },
+  "homepage": "https://github.com/amirhousseini/better-sqlite3-utils#readme"
+}
