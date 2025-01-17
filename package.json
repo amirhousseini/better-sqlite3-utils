@@ -1,6 +1,6 @@
 {
   "name": "ah-better-sqlite3-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Collection of classes and functions utilities for better-sqlite3",
   "main": "index.js",
   "scripts": {
