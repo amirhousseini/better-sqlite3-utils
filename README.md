@@ -1,2 +1,2 @@
 # better-sqlite3-utils
-Collection of utility classes and functions for better-sqlite3 
+Collection of utilities for better-sqlite3 

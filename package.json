@@ -1,7 +1,7 @@
 {
   "name": "ah-better-sqlite3-utils",
-  "version": "1.1.0",
-  "description": "Collection of classes and functions utilities for better-sqlite3",
+  "version": "1.1.2",
+  "description": "Collection of utilities for better-sqlite3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/amirhousseini/better-sqlite3-utils#readme",
   "dependencies": {
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "better-sqlite3": "^11.8.0"
   }
 }
