@@ -1,5 +1,5 @@
 /**
- * Module providing utility classes and functions for SQLite3 based on the better-sqlite3 module.
+ * Module providing utilities for better-sqlite3.
  */
 
 'use strict';
@@ -11,14 +11,14 @@ const Database = require('better-sqlite3');
  * Connect to an SQLite3 database.
  * The database file can be specified either by the first argument or by the property
  * SQLITE3_FILE in the file ".env". If none is specified an in-memory database is assumed
- * (reserved name ":memory:").
+ * (file name ":memory:").
  * Pragma journal_mode is set to 'WAL' by default as recommended by the better-sqlite3 module.
  * The database is automatically closed on process exit.
  * @param {string} filename Optional database file path.
- * @param {Object} options SQLite3 database options. Option fileMustExist is set by default.
- * @returns BetterSqlite3.Database. 
+ * @param {Object} options SQLite3 database options.
+ * @returns SQLite3 database proxy. 
  */
-function connectDb(filename, options = { fileMustExist: true }) {
+function connectDb(filename, options) {
     // Handle optional arguments
     if (arguments.length === 1) {
         if (typeof arguments[0] === 'object') {
@@ -38,7 +38,7 @@ function connectDb(filename, options = { fileMustExist: true }) {
  * Disconnect silently from an SQLite3 database.
  * Calling this function is normally not necessary, since connections obtained through
  * connectDb() are automatically closed on process exit.
- * @param {BetterSqlite3.Database} Connection object to the SQLite3 database.
+ * @param {object} db SQLite3 database proxy (as returned by connectDb()).
  */
 function disconnectDb(db) {
     try {
@@ -50,7 +50,7 @@ const selectKeyword = new RegExp('^\\s*select\\s+', "i");
 
 /**
  * Generic statement preparation.
- * @param {Object} db Connection object to SQLite3 as returned by connectDb().
+ * @param {object} db SQLite3 database proxy (as returned by connectDb()).
  * @param {String} sql SQL statement.
  * @param {any} singleton If true specifies a select statement returning a single row.
  * @return A wrapped statement, including an execution method specification.
