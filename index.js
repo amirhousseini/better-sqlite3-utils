@@ -1,5 +1,6 @@
 /**
  * Module providing utilities for better-sqlite3.
+ * See https://www.npmjs.com/package/better-sqlite3.
  */
 
 'use strict';
@@ -50,10 +51,11 @@ const selectKeyword = new RegExp('^\\s*select\\s+', "i");
 
 /**
  * Generic statement preparation.
- * @param {object} db SQLite3 database proxy (as returned by connectDb()).
- * @param {String} sql SQL statement.
+ * @param {object} db The SQLite3 database proxy (as returned by connectDb()).
+ * @param {String} sql The SQL statement.
  * @param {any} singleton If true specifies a select statement returning a single row.
- * @return A wrapped statement, including an execution method specification.
+ * @return An object with the prepared statement and the execution method specification.
+ * @throws Error if any statement preparation error occur.
  */
 function prepStmt(db, sql, singleton) {
     const stmt = db.prepare(sql);
@@ -68,6 +70,11 @@ function prepStmt(db, sql, singleton) {
  *  Only values of object properties are used.
  *  Arrays are fully flatten before use.
  * @return Result of the statement execution.
+ *  Select statements return array of objects with property names corresponding
+ *  to column names, expressions or aliases. Singleton selects return single objects,
+ *  not arrays of objects. Update statements return an object with the properties
+ *  "changes" and "lastInsertRowid".
+ * @throws Error if any execution error occur.
  */
 function execStmt(wstmt, ...params) {
     const { stmt, method } = wstmt;
